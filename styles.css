@@ -1,186 +1,112 @@
-/* General Styles */
-* {
-    box-sizing: border-box;
+/* Reset and base styles */
+body {
     margin: 0;
     padding: 0;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    line-height: 1.6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
     color: #333;
 }
 
-header {
-    background: linear-gradient(135deg, #6e7dff, #4d73e3);
-    color: white;
-    text-align: center;
+/* Container and layout */
+.container {
+    max-width: 1000px;
+    margin: auto;
     padding: 40px 20px;
-    margin-bottom: 50px;
 }
 
-.header-content h1 {
-    font-size: 3em;
-    margin-bottom: 10px;
-    animation: fadeIn 1s ease-out;
-}
-
-.header-content p {
-    font-size: 1.5em;
-    animation: fadeIn 2s ease-out;
-}
-
-/* Video Section */
-#product-video .video-container {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto 40px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-#product-video video {
-    width: 100%;
-    height: auto;
-    border-radius: 15px;
-}
-
-/* Product Description */
-#product-description {
+/* Title */
+.title {
     text-align: center;
-    padding: 40px 20px;
-    background: #f9f9f9;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px;
+    font-size: 2.8em;
+    margin-bottom: 30px;
+    color: #2c3e50;
 }
 
-#product-description h2 {
-    font-size: 2.5em;
-    color: #333;
-    margin-bottom: 20px;
+/* Video */
+.video-container {
+    text-align: center;
+    margin-bottom: 30px;
 }
-
-#product-description p {
-    font-size: 1.2em;
-    color: #666;
-    max-width: 900px;
-    margin: 0 auto;
-    line-height: 1.6;
-}
-
-/* Client Information Form */
-#client-info {
-    padding: 50px 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 50px;
-}
-
-#client-info .content {
+video {
+    width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Product description */
+.description {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    line-height: 1.6;
+    font-size: 1.1em;
+}
+
+/* Form section */
+.form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.form h2 {
     text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
 }
 
-#client-info h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    color: #333;
-}
-
+/* Input fields */
 .form-group {
     margin-bottom: 20px;
 }
-
 .form-group label {
     display: block;
+    margin-bottom: 6px;
     font-weight: bold;
     color: #555;
-    margin-bottom: 8px;
 }
-
 .form-group input,
 .form-group textarea {
     width: 100%;
     padding: 12px;
     font-size: 1em;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 20px; /* Rounded corners */
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
 }
 
-.form-group textarea {
-    height: 120px;
-}
-
-.btn-submit {
-    background-color: #4CAF50;
+/* Submit button */
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1em;
+    background: #4CAF50;
     color: white;
-    padding: 12px 20px;
     border: none;
-    border-radius: 8px;
-    font-size: 1.2em;
+    border-radius: 25px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease;
+}
+button:hover {
+    background: #45a049;
 }
 
-.btn-submit:hover {
-    background-color: #45a049;
-}
-
-/* Footer Section */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-}
-
-/* Animations */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    header {
-        padding: 30px 15px;
-    }
-
-    .header-content h1 {
+/* Responsive */
+@media (max-width: 600px) {
+    .title {
         font-size: 2em;
     }
 
-    .header-content p {
-        font-size: 1.2em;
-    }
-
-    #product-description h2 {
-        font-size: 2em;
-    }
-
-    #product-description p {
-        font-size: 1.1em;
-    }
-
-    #client-info {
-        padding: 30px 15px;
-    }
-
-    .form-group input,
-    .form-group textarea {
-        padding: 10px;
-    }
-
-    .btn-submit {
-        font-size: 1em;
-        padding: 10px 15px;
+    video {
+        width: 100%;
     }
 }
