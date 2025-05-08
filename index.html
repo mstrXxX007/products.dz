@@ -1,71 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Landing Page</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Product</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <div class="header-content">
-            <h1>Welcome to Our Premium Product</h1>
-            <p>Revolutionizing your experience with innovation and quality.</p>
+
+  <div class="container">
+    <h1 class="product-title">Amazing Product</h1>
+
+    <div class="video-box">
+      <video width="100%" controls>
+        <source src="your-video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <p class="description">
+      This is a great product that solves a lot of problems. It’s reliable, easy to use, and comes with great support.
+    </p>
+
+    <form class="form">
+      <h2>Contact Details</h2>
+
+      <div class="form-group">
+        <label for="clientName">First Name</label>
+        <input type="text" id="clientName" name="clientName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="familyName">Family Name</label>
+        <input type="text" id="familyName" name="familyName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required />
+      </div>
+
+      <div class="form-group">
+        <label>Delivery Method</label>
+        <div class="button-group">
+          <button type="button" onclick="selectDelivery('home')">Deliver to Home</button>
+          <button type="button" onclick="selectDelivery('stopdesk')">Deliver to Stopdesk</button>
         </div>
-    </header>
+      </div>
 
-    <!-- Product Video Section -->
-    <section id="product-video">
-        <div class="video-container">
-            <video width="100%" height="auto" controls>
-                <source src="images/11.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+      <!-- Home delivery fields -->
+      <div id="homeFields" style="display: none;">
+        <div class="form-group">
+          <label for="cityHome">City</label>
+          <input type="text" id="cityHome" name="cityHome" />
         </div>
-    </section>
-
-    <!-- Product Description Section -->
-    <section id="product-description">
-        <div class="content">
-            <h2>Why Our Product Stands Out</h2>
-            <p>Our product is designed with cutting-edge technology, providing features that no other product can match. It’s crafted to perfection, ensuring the best performance and reliability. Trust in our experience to make your life easier.</p>
+        <div class="form-group">
+          <label for="hometown">Home Town</label>
+          <input type="text" id="hometown" name="hometown" />
         </div>
-    </section>
-
-    <!-- Client Information Form -->
-    <section id="client-info">
-        <div class="content">
-            <h2>Order Your Product Today</h2>
-            <form action="submit-form" method="POST">
-                <div class="form-group">
-                    <label for="first-name">First Name:</label>
-                    <input type="text" id="first-name" name="first-name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="last-name">Last Name:</label>
-                    <input type="text" id="last-name" name="last-name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="address">Address:</label>
-                    <textarea id="address" name="address" required></textarea>
-                </div>
-
-                <button type="submit" class="btn-submit">Submit</button>
-            </form>
+        <div class="form-group">
+          <label for="fullAddress">Full Address</label>
+          <textarea id="fullAddress" name="fullAddress" rows="3"></textarea>
         </div>
-    </section>
+      </div>
 
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2025 Your Company Name | All rights reserved</p>
-    </footer>
+      <!-- Stopdesk delivery field -->
+      <div id="stopdeskField" style="display: none;">
+        <div class="form-group">
+          <label for="cityStopdesk">City</label>
+          <input type="text" id="cityStopdesk" name="cityStopdesk" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="shippingFee">Shipping Fee (DZD)</label>
+        <input type="text" id="shippingFee" name="shippingFee" value="0" readonly />
+      </div>
+
+      <div class="form-group">
+        <label for="totalPrice">Total Price (DZD)</label>
+        <input type="text" id="totalPrice" name="totalPrice" value="0" readonly />
+      </div>
+
+      <button type="submit" class="order-btn">Place Order</button>
+    </form>
+  </div>
+
+  <script>
+    function selectDelivery(option) {
+      const homeFields = document.getElementById("homeFields");
+      const stopdeskField = document.getElementById("stopdeskField");
+      const shippingFee = document.getElementById("shippingFee");
+      const totalPrice = document.getElementById("totalPrice");
+
+      if (option === "home") {
+        homeFields.style.display = "block";
+        stopdeskField.style.display = "none";
+        shippingFee.value = "400";
+        totalPrice.value = "2400"; // example
+      } else if (option === "stopdesk") {
+        homeFields.style.display = "none";
+        stopdeskField.style.display = "block";
+        shippingFee.value = "200";
+        totalPrice.value = "2200"; // example
+      }
+    }
+  </script>
 </body>
 </html>
