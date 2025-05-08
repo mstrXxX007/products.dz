@@ -1,112 +1,112 @@
-/* Reset and base styles */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f5f7fa;
-    color: #333;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
 }
 
-/* Container and layout */
 .container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 40px 20px;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
 }
 
-/* Title */
-.title {
-    text-align: center;
-    font-size: 2.8em;
-    margin-bottom: 30px;
-    color: #2c3e50;
+.product-title {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 32px;
+  margin-bottom: 20px;
 }
 
-/* Video */
-.video-container {
-    text-align: center;
-    margin-bottom: 30px;
-}
-video {
-    width: 100%;
-    max-width: 800px;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+.video-box {
+  overflow: hidden;
+  border-radius: 15px;
+  margin-bottom: 20px;
 }
 
-/* Product description */
 .description {
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 16px;
-    margin-bottom: 30px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    line-height: 1.6;
-    font-size: 1.1em;
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 30px;
 }
 
-/* Form section */
 .form {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-}
-.form h2 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 25px;
+  margin-top: 20px;
 }
 
-/* Input fields */
+.form h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #34495e;
+}
+
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 15px;
 }
+
 .form-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: bold;
-    color: #555;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
 }
+
 .form-group input,
 .form-group textarea {
-    width: 100%;
-    padding: 12px;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 20px; /* Rounded corners */
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-}
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: #4CAF50;
-    outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
-/* Submit button */
-button {
-    width: 100%;
-    padding: 14px;
-    font-size: 1.1em;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-button:hover {
-    background: #45a049;
+.form-group textarea {
+  resize: vertical;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-    .title {
-        font-size: 2em;
-    }
+.button-group {
+  display: flex;
+  gap: 10px;
+}
 
-    video {
-        width: 100%;
-    }
+.button-group button {
+  flex: 1;
+  padding: 10px;
+  background-color: #27ae60;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.button-group button:hover {
+  background-color: #219150;
+}
+
+input[readonly] {
+  background-color: #f1f1f1;
+  color: #444;
+  font-weight: bold;
+}
+
+.order-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #2980b9;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.order-btn:hover {
+  background-color: #1f618d;
 }
