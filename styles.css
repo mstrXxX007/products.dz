@@ -38,9 +38,22 @@ section {
     display: none;
 }
 
-#product-slider .slide.active {
-    display: block;
+/* Styling for the slider container */
+#product-slider .slider {
+    width: 100%; /* Makes the slider full width of the container */
+    max-width: 800px; /* You can adjust this value to control the max width */
+    margin: 0 auto; /* Centers the slider horizontally */
+    position: relative;
+    overflow: hidden; /* Hides the overflow images when sliding */
 }
+
+/* Styling for the images inside the slider */
+#product-slider .slide {
+    width: 100%; /* Makes each image take the full width of the container */
+    height: auto; /* Maintains the aspect ratio of the images */
+    object-fit: cover; /* Ensures the image covers the container without stretching */
+}
+
 
 /* Customer Information Form */
 #customer-info form {
