@@ -1,110 +1,614 @@
 <!DOCTYPE html>
-<html lang="en">
+<html dir="rtl" lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Product</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج الدفع عند الاستلام</title>
+    <style>
+        :root {
+            --primary-color: #4267B2;
+            --primary-hover: #365899;
+            --secondary-color: #f0f2f5;
+            --text-color: #333;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --light-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(66, 103, 178, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            width: 100%;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .error {
+            color: var(--error-color);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .success-message {
+            background-color: var(--success-color);
+            color: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* تصميم صفحة التأكيد */
+        #confirmationPage {
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            text-align: center;
+            width: 100%;
+        }
+
+        .confirmation-content {
+            padding: 20px;
+        }
+
+        .confirmation-icon {
+            margin: 0 auto 20px;
+            width: 100px;
+            height: 100px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .confirmation-title {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 15px;
+            animation: slideDown 0.5s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .confirmation-message {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .order-details {
+            background-color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: right;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .order-details h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .order-details p {
+            margin: 5px 0;
+            font-size: 15px;
+        }
+
+        .order-details strong {
+            color: var(--primary-color);
+        }
+
+        .confirmation-icons {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            animation: slideUp 0.7s ease-in-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px 15px;
+            width: 90px;
+        }
+
+        .icon-item svg {
+            margin-bottom: 8px;
+        }
+
+        .icon-item span {
+            font-size: 12px;
+            text-align: center;
+            color: #555;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .primary-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .secondary-btn {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .primary-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .secondary-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .confirmation-icons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .icon-item {
+                margin-bottom: 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-buttons button {
+                margin-bottom: 10px;
+            }
+        }
+
+        .video-wrapper {
+          position: relative;
+          padding-bottom: 56.25%;
+          height: 0;
+          overflow: hidden;
+          margin-bottom: 20px;
+          border-radius: var(--border-radius);
+          box-shadow: var(--light-shadow);
+        }
+
+        .video-wrapper video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+      <div class="video-wrapper">
+        <video controls>
+          <source src="images/11.mp4" type="video/mp4">
+          متصفحك لا يدعم تشغيل الفيديو.
+        </video>
+      </div>
 
-  <div class="container">
-    <h1 class="product-title">Amazing Product</h1>
+        <div class="form-header">
+            <h1>طلب الدفع عند الاستلام</h1>
+            <p>يرجى ملء البيانات التالية لإتمام طلبك</p>
+        </div>
 
-    <div class="video-box">
-      <video width="100%" controls>
-        <source src="images/11.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+        <!-- نموذج الطلب -->
+        <div id="orderForm">
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" id="name" name="name" placeholder="أدخل اسمك الكامل" required>
+                    <div class="error" id="nameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف" required>
+                    <div class="error" id="phoneError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="wilaya">الولاية</label>
+                    <select id="wilaya" name="wilaya" required>
+                        <option value="" disabled selected>اختر الولاية</option>
+                    </select>
+                    <div class="error" id="wilayaError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="commune">البلدية</label>
+                    <select id="commune" name="commune" required disabled>
+                        <option value="" disabled selected>اختر البلدية</option>
+                    </select>
+                    <div class="error" id="communeError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">العنوان التفصيلي</label>
+                    <input type="text" id="address" name="address" placeholder="أدخل العنوان التفصيلي" required>
+                    <div class="error" id="addressError"></div>
+                </div>
+
+                <button type="submit" id="submitBtn">إرسال الطلب</button>
+            </form>
+        </div>
+
+        <!-- صفحة التأكيد -->
+        <div id="confirmationPage" style="display: none;">
+            <div class="confirmation-content">
+                <div class="confirmation-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100" height="100">
+                        <circle cx="12" cy="12" r="11" fill="#4267B2" opacity="0.2"/>
+                        <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" fill="#4267B2"/>
+                    </svg>
+                </div>
+                <h2 class="confirmation-title">تم استلام طلبك بنجاح!</h2>
+                <p class="confirmation-message">شكراً لثقتك بنا. سيتم التواصل معك قريباً لتأكيد الطلب.</p>
+                
+                <div class="order-details" id="orderSummary">
+                    <!-- سيتم ملؤها بالجافاسكريبت -->
+                </div>
+                
+                <div class="confirmation-icons">
+                    <div class="icon-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
+                            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" fill="#4267B2"/>
+                        </svg>
+                        <span>طلبك جاهز للشحن</span>
+                    </div>
+                    <div class="icon-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
+                            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" fill="#4267B2"/>
+                        </svg>
+                        <span>الدفع عند الاستلام</span>
+                    </div>
+                    <div class="icon-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" fill="#4267B2"/>
+                        </svg>
+                        <span>ضمان جودة المنتج</span>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="newOrderBtn" class="secondary-btn">طلب جديد</button>
+                    <button id="trackOrderBtn" class="primary-btn">متابعة الطلب</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <p class="description">
-      This is a great product that solves a lot of problems. It’s reliable, easy to use, and comes with great support.
-    </p>
+    <script>
+        // بيانات الولايات والبلديات الجزائرية
+        const algerianWilayasAndCommunes = {
+            "01 - أدرار": ["أدرار", "تامنطيط", "فنوغيل", "تيت", "تسابيت", "شروين", "أولف", "زاوية كنتة", "رقان", "إن زغمير", "تيميمون"],
+            "02 - الشلف": ["الشلف", "تنس", "الكريمية", "بني حواء", "وادي قوسين", "بوقادير", "وادي سلي", "الظهرة", "أولاد فارس", "بني راشد"],
+            "03 - الأغواط": ["الأغواط", "قلتة سيدي سعد", "سيدي مخلوف", "حاسي الرمل", "عين ماضي", "الخنق", "قصر الحيران", "بريدة", "آفلو", "الغيشة"],
+            "04 - أم البواقي": ["أم البواقي", "عين البيضاء", "عين مليلة", "عين فكرون", "عين كرشة", "مسكيانة", "قصر الصباحي", "سوق نعمان", "فكيرينة", "الضلعة"],
+            "05 - باتنة": ["باتنة", "بريكة", "نقاوس", "مروانة", "آريس", "رأس العيون", "ثنية العابد", "تازولت", "عين التوتة", "تيمقاد"],
+            "06 - بجاية": ["بجاية", "القصر", "أقبو", "أميزور", "صدوق", "تيمزريت", "سوق الإثنين", "تيشي", "سيدي عيش", "أوقاس"],
+            "07 - بسكرة": ["بسكرة", "سيدي عقبة", "طولقة", "أولاد جلال", "أورلال", "زريبة الوادي", "ليشانة", "فوغالة", "مشونش", "القنطرة"],
+            "08 - بشار": ["بشار", "العبادلة", "بني ونيف", "القنادسة", "تاغيت", "كرزاز", "بني عباس", "إقلي", "تيمودي", "تبلبالة"],
+            "09 - البليدة": ["البليدة", "الأربعاء", "مفتاح", "وادي العلايق", "بوفاريك", "بوعينان", "بوقرة", "الصومعة", "حمام ملوان", "أولاد يعيش"],
+            "10 - البويرة": ["البويرة", "عين بسام", "سور الغزلان", "المشدالة", "الأخضرية", "برج أوخريص", "بشلول", "حيزر", "مشد الله", "سوق الخميس"],
+            "11 - تمنراست": ["تمنراست", "عين صالح", "عين أمقل", "سيلت", "تاظروك", "تين زواتين", "إدلس", "تازروق", "إينغر", "أبلسة"],
+            "12 - تبسة": ["تبسة", "بئر العاتر", "الشريعة", "الونزة", "مرسط", "العوينات", "الماء الأبيض", "نقرين", "بئر مقدم", "ثليجان"],
+            "13 - تلمسان": ["تلمسان", "المنصورة", "ندرومة", "الغزوات", "مغنية", "صبرة", "سبدو", "أولاد ميمون", "الرمشي", "هنين"],
+            "14 - تيارت": ["تيارت", "مهدية", "عين الذهب", "السوقر", "فرندة", "عين كرمس", "حمادية", "قصر الشلالة", "رحوية", "مشرع الصفا"],
+            "15 - تيزي وزو": ["تيزي وزو", "عين الحمام", "ذراع الميزان", "واضية", "مقلع", "تيقزيرت", "بوغني", "الأربعاء ناث إيراثن", "عزازقة", "لاربعة ناث إيراثن"],
+            "16 - الجزائر": ["الجزائر", "باب الوادي", "بولوغين", "بئر مراد رايس", "باش جراح", "الحراش", "الدار البيضاء", "برج الكيفان", "زرالدة", "الرويبة"],
+            "17 - الجلفة": ["الجلفة", "حاسي بحبح", "عين وسارة", "مسعد", "دار الشيوخ", "الشارف", "فيض البطمة", "بيرين", "الإدريسية", "عين الإبل"],
+            "18 - جيجل": ["جيجل", "الطاهير", "الميلية", "تاكسنة", "زيامة منصورية", "العنصر", "سيدي معروف", "السطارة", "القنار الصخري", "وجانة"],
+            "19 - سطيف": ["سطيف", "العلمة", "عين ولمان", "بوقاعة", "عين الكبيرة", "بني ورتيلان", "عموشة", "بني عزيز", "حمام السخنة", "صالح باي"],
+            "20 - سعيدة": ["سعيدة", "عين الحجر", "سيدي بوبكر", "مولاي العربي", "يوب", "سيدي أحمد", "عين السخونة", "الحساسنة", "المعمورة", "ذوي ثابت"],
+            "21 - سكيكدة": ["سكيكدة", "الحروش", "عزابة", "القل", "تمالوس", "كوكة", "عين قشرة", "أولاد عطية", "رمضان جمال", "الزيتونة"],
+            "22 - سيدي بلعباس": ["سيدي بلعباس", "تلاغ", "سفيزف", "بن باديس", "مصطفى بن إبراهيم", "تنيرة", "مرين", "رأس الماء", "عين البرد", "تسالة"],
+            "23 - عنابة": ["عنابة", "برحال", "الحجار", "البوني", "سرايدي", "عين الباردة", "شطايبي", "العلمة", "وادي العنب", "التريعات"],
+            "24 - قالمة": ["قالمة", "وادي الزناتي", "عين مخلوف", "تاملوكة", "بوشقوف", "حمام دباغ", "بومهرة أحمد", "عين بن بيضاء", "خزارة", "بني مزلين"],
+            "25 - قسنطينة": ["قسنطينة", "حامة بوزيان", "ابن زياد", "زيغود يوسف", "ديدوش مراد", "الخروب", "عين عبيد", "بني حميدان", "مسعود بوجريو", "عين سمارة"],
+            "26 - المدية": ["المدية", "البرواقية", "قصر البخاري", "تابلاط", "عين بوسيف", "وزرة", "السواقي", "سيدي نعمان", "عوامري", "بني سليمان"],
+            "27 - مستغانم": ["مستغانم", "عين تادلس", "حجاج", "سيدي علي", "سيدي لخضر", "عشعاشة", "بوقيراط", "خير الدين", "الصور", "ماسرة"],
+            "28 - المسيلة": ["المسيلة", "بوسعادة", "سيدي عيسى", "عين الملح", "حمام الضلعة", "المعاضيد", "بن سرور", "مقرة", "خبانة", "شلال"],
+            "29 - معسكر": ["معسكر", "المحمدية", "تيغنيف", "سيق", "ماوسة", "البرج", "عين فارس", "عين فكان", "وادي الأبطال", "غريس"],
+            "30 - ورقلة": ["ورقلة", "تقرت", "الحجيرة", "النزلة", "تبسبست", "الطيبات", "المقارين", "سيدي خويلد", "حاسي مسعود", "عين البيضاء"],
+            "31 - وهران": ["وهران", "عين الترك", "أرزيو", "بطيوة", "قديل", "السانية", "وادي تليلات", "بئر الجير", "مرسى الحجاج", "عين الكرمة"],
+            "32 - البيض": ["البيض", "بريزينة", "بوعلام", "الأبيض سيد الشيخ", "عين العراك", "أربوات", "بوقطب", "الشلالة", "روقاصة", "الكاف الأحمر"],
+            "33 - إليزي": ["إليزي", "جانت", "برج عمر إدريس", "إن أميناس", "دبداب", "برج الحواس", "عين أمناس", "تين الكوم", "الطارات", "إفني"],
+            "34 - برج بوعريريج": ["برج بوعريريج", "رأس الوادي", "برج الغدير", "المنصورة", "مجانة", "ثنية النصر", "عين تاغروت", "بئر قاصد علي", "الحمادية", "الماين"],
+            "35 - بومرداس": ["بومرداس", "برج منايل", "بغلية", "دلس", "الناصرية", "بودواو", "يسر", "زموري", "تيجلابين", "الثنية"],
+            "36 - الطارف": ["الطارف", "القالة", "بن مهيدي", "البسباس", "الذرعان", "بوحجار", "الزيتونة", "عين العسل", "بريحان", "الشط"],
+            "37 - تندوف": ["تندوف", "أم العسل", "حاسي خبي", "أوم الأسل"],
+            "38 - تيسمسيلت": ["تيسمسيلت", "ثنية الأحد", "برج بونعامة", "خميستي", "بني شعيب", "عماري", "العيون", "سيدي العنتري", "لرجام", "المعاصم"],
+            "39 - الوادي": ["الوادي", "قمار", "الرباح", "المقرن", "حساني عبد الكريم", "دبيلة", "حاسي خليفة", "الطريفاوي", "الدبيلة", "كوينين"],
+            "40 - خنشلة": ["خنشلة", "قايس", "طامزة", "بوحمامة", "عين الطويلة", "ششار", "الحامة", "أنسيغة", "يابوس", "المحمل"],
+            "41 - سوق أهراس": ["سوق أهراس", "سدراتة", "المشروحة", "أولاد إدريس", "تاورة", "الحدادة", "المراهنة", "وادي الكبريت", "ترقالت", "الزعرورية"],
+            "42 - تيبازة": ["تيبازة", "شرشال", "قوراية", "الداموس", "فوكة", "بواسماعيل", "أحمر العين", "بوهارون", "سيدي عمر", "مناصر"],
+            "43 - ميلة": ["ميلة", "فرجيوة", "شلغوم العيد", "وادي العثمانية", "تاجنانت", "وادي سقان", "تسدان حدادة", "تسالة لمطاعي", "سيدي مروان", "عميرة أراس"],
+            "44 - عين الدفلى": ["عين الدفلى", "خميس مليانة", "مليانة", "جندل", "العامرة", "بومدفع", "العطاف", "الروينة", "تاشتة", "عين الاشياخ"],
+            "45 - النعامة": ["النعامة", "مشرية", "عين الصفراء", "صفيصيفة", "مغرار", "عسلة", "تيوت", "المكمن", "القصدير", "جنين بورزق"],
+            "46 - عين تموشنت": ["عين تموشنت", "حمام بوحجر", "العامرية", "المالح", "بني صاف", "الحساسنة", "عين الكيحل", "عين الأربعاء", "تارقة", "سيدي بن عدة"],
+            "47 - غرداية": ["غرداية", "بريان", "متليلي", "القرارة", "ضاية بن ضحوة", "زلفانة", "العطف", "بونورة", "بني يزقن", "سبسب"],
+            "48 - غليزان": ["غليزان", "وادي رهيو", "المطمر", "عمي موسى", "سيدي امحمد بن علي", "الحمادنة", "سيدي خطاب", "مازونة", "جديوية", "منداس"],
+            "49 - تيميمون": ["تيميمون", "أولاد سعيد", "أوقروت", "تينركوك", "قصر قدور", "شروين", "طالمين", "أولاد عيسى", "الطيبات", "مطارفة"],
+            "50 - برج باجي مختار": ["برج باجي مختار", "تيمياوين"],
+            "51 - أولاد جلال": ["أولاد جلال", "سيدي خالد", "الدوسن", "الشعيبة", "رأس الميعاد", "البسباس"],
+            "52 - بني عباس": ["بني عباس", "كرزاز", "بني يخلف", "تبلبالة", "إقلي", "تامترت", "واتة", "تيمودي", "قصابي", "الواتة"],
+            "53 - عين صالح": ["عين صالح", "فقارة الزوى", "إينغر", "عين أمقل"],
+            "54 - عين قزام": ["عين قزام", "تين زواتين"],
+            "55 - تقرت": ["تقرت", "تماسين", "النزلة", "بلدة عمر", "الطيبات", "المقارين", "سيدي سليمان", "المنقر", "الزاوية العابدية", "بن ناصر"],
+            "56 - جانت": ["جانت", "برج الحواس"],
+            "57 - المغير": ["المغير", "جامعة", "سيدي عمران", "تندلة", "المرارة", "أم الطيور", "سيدي خليل", "ليشانة"],
+            "58 - المنيعة": ["المنيعة", "حاسي القارة", "حاسي الفحل", "القصر", "حاسي الفحل", "البيض"]
+        };
 
-    <form class="form">
-      <h2>Contact Details</h2>
+        // تهيئة القوائم المنسدلة
+        document.addEventListener('DOMContentLoaded', function() {
+            const wilayaSelect = document.getElementById('wilaya');
+            const communeSelect = document.getElementById('commune');
+            const newOrderBtn = document.getElementById('newOrderBtn');
+            const trackOrderBtn = document.getElementById('trackOrderBtn');
+            
+            // إضافة الولايات إلى القائمة المنسدلة
+            for (const wilaya in algerianWilayasAndCommunes) {
+                const option = document.createElement('option');
+                option.value = wilaya;
+                option.textContent = wilaya;
+                wilayaSelect.appendChild(option);
+            }
+            
+            // تحديث قائمة البلديات عند اختيار ولاية
+            wilayaSelect.addEventListener('change', function() {
+                // إعادة تعيين قائمة البلديات
+                communeSelect.innerHTML = '<option value="" disabled selected>اختر البلدية</option>';
+                
+                // تفعيل قائمة البلديات
+                communeSelect.disabled = false;
+                
+                // الحصول على البلديات للولاية المختارة
+                const communes = algerianWilayasAndCommunes[this.value];
+                
+                // إضافة البلديات إلى القائمة المنسدلة
+                communes.forEach(commune => {
+                    const option = document.createElement('option');
+                    option.value = commune;
+                    option.textContent = commune;
+                    communeSelect.appendChild(option);
+                });
+            });
+            
+            // العودة إلى نموذج الطلب الجديد
+            newOrderBtn.addEventListener('click', function() {
+                document.getElementById('confirmationPage').style.display = 'none';
+                document.getElementById('orderForm').style.display = 'block';
+            });
+            
+            // زر متابعة الطلب
+            trackOrderBtn.addEventListener('click', function() {
+                // يمكن هنا توجيه المستخدم إلى صفحة تتبع الطلبات أو عرض رسالة
+                alert('سيتم تفعيل خدمة تتبع الطلبات قريباً!');
+            });
+            
+            // التحقق من صحة النموذج
+            const form = document.getElementById('paymentForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // إعادة تعيين رسائل الخطأ
+                document.querySelectorAll('.error').forEach(element => {
+                    element.textContent = '';
+                });
+                
+                let isValid = true;
+                
+                // التحقق من الاسم
+                const name = document.getElementById('name').value.trim();
+                if (name === '') {
+                    document.getElementById('nameError').textContent = 'يرجى إدخال الاسم الكامل';
+                    isValid = false;
+                }
+                
+                // التحقق من رقم الهاتف
+                const phone = document.getElementById('phone').value.trim();
+                if (phone === '') {
+                    document.getElementById('phoneError').textContent = 'يرجى إدخال رقم الهاتف';
+                    isValid = false;
+                } else if (!/^(0)(5|6|7)[0-9]{8}$/.test(phone)) {
+                    document.getElementById('phoneError').textContent = 'يرجى إدخال رقم هاتف جزائري صحيح';
+                    isValid = false;
+                }
+                
+                // التحقق من الولاية
+                const wilaya = document.getElementById('wilaya').value;
+                if (wilaya === '' || wilaya === null) {
+                    document.getElementById('wilayaError').textContent = 'يرجى اختيار الولاية';
+                    isValid = false;
+                }
+                
+                // التحقق من البلدية
+                const commune = document.getElementById('commune').value;
+                if (commune === '' || commune === null) {
+                    document.getElementById('communeError').textContent = 'يرجى اختيار البلدية';
+                    isValid = false;
+                }
+                
+                // التحقق من العنوان
+                const address = document.getElementById('address').value.trim();
+                if (address === '') {
+                    document.getElementById('addressError').textContent = 'يرجى إدخال العنوان التفصيلي';
+                    isValid = false;
+                }
+                
+                // إذا كان النموذج صحيحًا
+                if (isValid) {
+                    // جمع البيانات لعرضها في صفحة التأكيد
+                    const customerName = document.getElementById('name').value;
+                    const phoneNumber = document.getElementById('phone').value;
+                    const selectedWilaya = document.getElementById('wilaya').options[document.getElementById('wilaya').selectedIndex].text;
+                    const selectedCommune = document.getElementById('commune').options[document.getElementById('commune').selectedIndex].text;
+                    const customerAddress = document.getElementById('address').value;
+                    
+                    // إنشاء رمز للطلب
+                    const orderNumber = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+                    const orderDate = new Date().toLocaleDateString('ar-DZ');
+                    
+                    // إضافة تفاصيل الطلب إلى صفحة التأكيد
+                    const orderSummary = document.getElementById('orderSummary');
+                    orderSummary.innerHTML = `
+                        <h3>تفاصيل الطلب</h3>
+                        <p><strong>رقم الطلب:</strong> ${orderNumber}</p>
+                        <p><strong>تاريخ الطلب:</strong> ${orderDate}</p>
+                        <p><strong>الاسم:</strong> ${customerName}</p>
+                        <p><strong>رقم الهاتف:</strong> ${phoneNumber}</p>
+                        <p><strong>العنوان:</strong> ${customerAddress}، ${selectedCommune}، ${selectedWilaya}</p>
+                    `;
+                    
+                    // إخفاء نموذج الطلب وإظهار صفحة التأكيد
+                    document.getElementById('orderForm').style.display = 'none';
+                    document.getElementById('confirmationPage').style.display = 'block';
+                    
+                    // إعادة النموذج إلى القيم الافتراضية
+                    form.reset();
+                    communeSelect.disabled = true;
+                }
+            });
+        });
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ // Send form data to Google Sheets via Google Apps Script web app
+        const form = document.getElementById('paymentForm');
+            form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-      <div class="form-group">
-        <label for="clientName">First Name</label>
-        <input type="text" id="clientName" name="clientName" required />
-      </div>
+            const formData = {
+                        name: document.getElementById('name').value,
+                        phone: document.getElementById('phone').value,
+                        wilaya: document.getElementById('wilaya').value,
+                        commune: document.getElementById('commune').value,
+                        address: document.getElementById('address').value
+                    };
 
-      <div class="form-group">
-        <label for="familyName">Family Name</label>
-        <input type="text" id="familyName" name="familyName" required />
-      </div>
+            const encoded = new URLSearchParams(formData).toString();
 
-      <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" name="phone" required />
-      </div>
-
-      <div class="form-group">
-        <label>Delivery Method</label>
-        <div class="button-group">
-          <button type="button" onclick="selectDelivery('home')">Deliver to Home</button>
-          <button type="button" onclick="selectDelivery('stopdesk')">Deliver to Stopdesk</button>
-        </div>
-      </div>
-
-      <!-- Home delivery fields -->
-      <div id="homeFields" style="display: none;">
-        <div class="form-group">
-          <label for="cityHome">City</label>
-          <input type="text" id="cityHome" name="cityHome" />
-        </div>
-        <div class="form-group">
-          <label for="hometown">Home Town</label>
-          <input type="text" id="hometown" name="hometown" />
-        </div>
-        <div class="form-group">
-          <label for="fullAddress">Full Address</label>
-          <textarea id="fullAddress" name="fullAddress" rows="3"></textarea>
-        </div>
-      </div>
-
-      <!-- Stopdesk delivery field -->
-      <div id="stopdeskField" style="display: none;">
-        <div class="form-group">
-          <label for="cityStopdesk">City</label>
-          <input type="text" id="cityStopdesk" name="cityStopdesk" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="shippingFee">Shipping Fee (DZD)</label>
-        <input type="text" id="shippingFee" name="shippingFee" value="0" readonly />
-      </div>
-
-      <div class="form-group">
-        <label for="totalPrice">Total Price (DZD)</label>
-        <input type="text" id="totalPrice" name="totalPrice" value="0" readonly />
-      </div>
-
-      <button type="submit" class="order-btn">Place Order</button>
-    </form>
-  </div>
-
-  <script>
-    function selectDelivery(option) {
-      const homeFields = document.getElementById("homeFields");
-      const stopdeskField = document.getElementById("stopdeskField");
-      const shippingFee = document.getElementById("shippingFee");
-      const totalPrice = document.getElementById("totalPrice");
-
-      if (option === "home") {
-        homeFields.style.display = "block";
-        stopdeskField.style.display = "none";
-        shippingFee.value = "400";
-        totalPrice.value = "2400"; // example
-      } else if (option === "stopdesk") {
-        homeFields.style.display = "none";
-        stopdeskField.style.display = "block";
-        shippingFee.value = "200";
-        totalPrice.value = "2200"; // example
-      }
-    }
-  </script>
+            fetch("https://script.google.com/macros/s/AKfycbyDdbsWv45CcsAsL0hp1XMdbw_pl68-B7dhz2q5ht_4M59m9-oGcfDh-pZGK9JPwNY/exec", {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: encoded
+            }).then(() => {
+                alert("Information sent successfully!");
+                form.reset();
+            }).catch(err => {
+                alert("Error: " + err.message);
+            });
+            });
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    </script>
 </body>
 </html>
