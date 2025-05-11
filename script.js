@@ -41,7 +41,7 @@ function parseCSV(csvData) {
   populateWilayas();
 }
 
-fetchAndParseCSV("algeria_cities.csv");
+fetchAndParseCSV("data/algeria_cities.csv");
 
 // --- Total Price Calculation ---
 function updateTotal() {
