@@ -13,12 +13,12 @@
 
   <!-- 🔸 Promotion Container -->
   <div class="promotion-banner">
-    🔥 عرض خاص اليوم فقط - احصل على خصم 20% على أول طلب! 🔥
+    🔥 عرض خاص  - تخفيضات حسب الكمية! 🔥
   </div>
   
   <!-- 🔸 Promotion Content -->
   <div class="promotion-content">
-    🎉 عرض خاص لفترة محدودة: اشترِ منتجك الآن واحصل على هدية مجانية! 🎁
+    🎉 عرض خاص لفترة محدودة: التوصيل للمكتب او المنزل حسب الكمية! 🎁
   </div>
 
   <!-- 🔸 container Background -->
@@ -59,8 +59,9 @@
       <div class="delivery-method">
         <label>طريقة التوصيل:</label>
         <div class="buttons">
-          <button type="button" class="delivery-option selected" data-fee="300" data-type="stopdesk" id="stopdeskDelivery">استلام من المكتب</button>
-          <button type="button" class="delivery-option " data-fee="500" data-type="home" id="homeDelivery">توصيل منزلي</button>
+          <button type="button" class="delivery-option selected" data-fee="300" data-type="stopdesk" id="stopdeskDelivery"><strong>استلام من المكتب</strong></button>
+          <button type="button" class="delivery-option" data-fee="500" data-type="home" id="homeDelivery"><strong>توصيل منزلي</strong></button>       
+         
         </div>
       </div>
 
@@ -96,17 +97,16 @@
   <button id="scrollToForm" class="floating-button">املاء معلوماتك</button>
 
   <!-- Modal for Waiting for Confirmation -->
-<!-- Modal for Waiting for Confirmation -->
-<div id="waitModal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <h3 style="margin-bottom: 10px;">جارٍ معالجة طلبك</h3>
-    <p>يرجى الانتظار حتى التأكيد. لا تغلق الصفحة.</p>
+  <div id="waitModal" style="display:none;" class="modal">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 10px;">جارٍ معالجة طلبك</h3>
+      <p>يرجى الانتظار حتى التأكيد. لا تغلق الصفحة.</p>
 
-    <div style="width: 100px; height: 100px; margin: 20px auto;">
-      <img src="images/Animation - 1746924142206.gif" alt="Processing animation" style="width: 100%; height: 100%;" />
+      <div style="width: 100px; height: 100px; margin: auto;">
+        <img src="images/Animation - 1746924142206.gif" alt="Processing animation" style="width: 100%; height: 100%;" />
+      </div>
     </div>
   </div>
-</div>
 
   <!-- Modal for Success -->
  <div id="successModal" style="display:none;" class="modal">
