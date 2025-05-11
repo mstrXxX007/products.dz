@@ -6,6 +6,8 @@
   <title>نموذج طلب منتج</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+
 </head>
 <body>
 
@@ -27,14 +29,20 @@
  </div>
 
 <!-- 🔸 offre Container -->
- <div class="offreContainer">
-   <div class="promo-box">
+<div class="offreContainer">
+  <div class="promo-box">
 
-      <h2>Special Offer!</h2>
-      <p>Get 20% off on all items. Hurry, offer ends soon!</p>
-    </div>
+    <span id="specialTitle" class="highlight-phrase">درنالكم عرض شباب</span>
+
+   <span class="offer">1- <strong>تشري وحدة 1800 دج</strong></span><br>
+  <span class="offer">2- <strong>تشري زوج 3600 دج</strong> + <span class="highlight-office">التوصيل مجاني للمكتب</span></span><br>
+<span class="offer">3- <strong>تشري ثلاثة 5000 دج</strong> + <span class="highlight-home">توصيل حتى باب المنزل</span></span>
+
+
 
   </div>
+</div>
+
 
   <!-- 🔸 Main Container -->
   <div class="container">
@@ -88,47 +96,46 @@
   <button id="scrollToForm" class="floating-button">املاء معلوماتك</button>
 
   <!-- Modal for Waiting for Confirmation -->
-  <div id="waitModal" style="display:none;" class="modal">
-    <div class="modal-content">
-      <h3 style="margin-bottom: 10px;">جارٍ معالجة طلبك</h3>
-      <p>يرجى الانتظار حتى التأكيد. لا تغلق الصفحة.</p>
+<!-- Modal for Waiting for Confirmation -->
+<div id="waitModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <h3 style="margin-bottom: 10px;">جارٍ معالجة طلبك</h3>
+    <p>يرجى الانتظار حتى التأكيد. لا تغلق الصفحة.</p>
 
-      <div style="width: 100px; height: 100px; margin: auto;">
-        <img src="images/Animation - 1746924142206.gif" alt="Processing animation" style="width: 100%; height: 100%;" />
-      </div>
+    <div style="width: 100px; height: 100px; margin: 20px auto;">
+      <img src="images/Animation - 1746924142206.gif" alt="Processing animation" style="width: 100%; height: 100%;" />
     </div>
   </div>
+</div>
 
   <!-- Modal for Success -->
-  <div id="successModal" style="display:none;" class="modal">
-    <div class="modal-content">
-      <h2>تم إرسال الطلب بنجاح!</h2>
-      <p><strong>الاسم:</strong> <span id="modalName"></span></p>
-      <p><strong>رقم الهاتف:</strong> <span id="modalPhone"></span></p>
-      <p><strong>طريقة التوصيل:</strong> <span id="modalDelivery"></span></p>
-      <p><strong>الولاية:</strong> <span id="modalWilaya"></span></p>
-      <p><strong>البلدية:</strong> <span id="modalCommune"></span></p>
-      <p><strong>العنوان:</strong> <span id="modalAddress"></span></p>
-      <p><strong>الكمية:</strong> <span id="modalQuantity"></span></p>
-      <p><strong>سعر التوصيل:</strong> <span id="modalShippingFee"></span></p>
-      <p><strong>السعر الإجمالي:</strong> <span id="modalTotalPrice"></span></p>
+ <div id="successModal" style="display:none;" class="modal">
+  <div class="modal-content">
+    <h2>تم إرسال الطلب بنجاح!</h2>
+    <p><strong>الاسم:</strong> <span id="modalName"></span></p>
+    <p><strong>رقم الهاتف:</strong> <span id="modalPhone"></span></p>
+    <p><strong>طريقة التوصيل:</strong> <span id="modalDelivery"></span></p>
+    <p><strong>الولاية:</strong> <span id="modalWilaya"></span></p>
+    <p><strong>البلدية:</strong> <span id="modalCommune"></span></p>
+    <p><strong>العنوان:</strong> <span id="modalAddress"></span></p>
+    <p><strong>الكمية:</strong> <span id="modalQuantity"></span></p>
+    <p><strong>سعر التوصيل:</strong> <span id="modalShippingFee"></span></p>
+    <p><strong>السعر الإجمالي:</strong> <span id="modalTotalPrice"></span></p>
 
-       <div style="width: 100px; height: 100px; margin: auto;">
-        <img src="images/Animation - 1746923904031.gif" alt="Processing animation" style="width: 100%; height: 100%;" />
-      </div>
+    <div style="width: 100px; height: 100px; margin: 50px auto;">
+      <img src="images/Animation - 1746923904031.gif" alt="Processing animation" style="width: 100%; height: 100%;" />
     </div>
 
-      <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-        <button id="closeModalBtn">❌ إغلاق</button>
-      </div>
-    </div>
+    <!-- ✅ Button placed inside modal-content -->
+    <button id="closeModalBtn">❌ إغلاق</button>
   </div>
+</div>
+
 
   <script src="script.js"></script>
   <script>
     document.getElementById("scrollToForm").addEventListener("click", function () {
-      // Scroll to the h2 element with id "target-heading"
-      document.getElementById("target-heading").scrollIntoView({ behavior: "smooth" });
+      document.getElementById("specialTitle").scrollIntoView({ behavior: "smooth" });
     });
 
     // Add event listener for closing the modal
