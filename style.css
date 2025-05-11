@@ -14,7 +14,7 @@ body {
 /* ============================== */
 
 .my-image {
-  width: auto;
+  width: 100%;
   height: auto;
   border-radius: 10px;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
