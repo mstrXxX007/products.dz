@@ -41,7 +41,7 @@ function parseCSV(csvData) {
   populateWilayas();
 }
 
-fetchAndParseCSV("data/algeria_cities.csv");
+fetchAndParseCSV("algeria_cities.csv");
 
 // --- Total Price Calculation ---
 function updateTotal() {
@@ -200,4 +200,15 @@ orderForm.addEventListener("submit", (e) => {
       alert("There was an error submitting the order. Please try again.");
       console.error("Submission error:", err);
     });
+});
+
+// Set default delivery method to "stopdesk" on page load
+window.addEventListener("load", () => {
+  const defaultDeliveryButton = document.querySelector(".delivery-option[data-type='stopdesk']");
+  if (defaultDeliveryButton) {
+    defaultDeliveryButton.classList.add("selected");
+    addressFields.style.display = "none"; // Hide commune field
+    shippingFee = parseInt(defaultDeliveryButton.dataset.fee) || 0;
+    updateTotal();
+  }
 });
