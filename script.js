@@ -12,19 +12,25 @@ const addressFields = document.getElementById("addressFields");
 const orderForm = document.getElementById("orderForm");
 
 let wilayasData = {};
+let stopdeskData = {};
+
 
 // --- CSV Parsing ---
-async function fetchAndParseCSV(filePath) {
+async function fetchAndParseCSV(filePath, isStopdesk = false) {
   try {
     const response = await fetch(filePath);
     const csvData = await response.text();
-    parseCSV(csvData);
+    if (isStopdesk) {
+      parseStopDeskCSV(csvData);
+    } else {
+      parseNormalCSV(csvData);
+    }
   } catch (err) {
-    console.error("Failed to load CSV:", err);
+    console.error(`Failed to load CSV (${filePath}):`, err);
   }
 }
 
-function parseCSV(csvData) {
+function parseNormalCSV(csvData) {
   const rows = csvData.split("\n");
   rows.forEach(row => {
     const [id, communeName, , wilayaCode, wilayaName] = row.split(",");
@@ -38,10 +44,54 @@ function parseCSV(csvData) {
       wilayasData[wilayaCode].communes.push({ name: communeName.trim(), id });
     }
   });
-  populateWilayas();
 }
 
-fetchAndParseCSV("data/algeria_cities.csv");
+function parseStopDeskCSV(csvData) {
+  const rows = csvData.split("\n");
+  // Skip the header row
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row.trim()) continue;
+    
+    // Split by comma, but handle quoted values that might contain commas
+    let columns = [];
+    let inQuotes = false;
+    let currentValue = '';
+    
+    for (let j = 0; j < row.length; j++) {
+      const char = row[j];
+      
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        columns.push(currentValue.trim());
+        currentValue = '';
+      } else {
+        currentValue += char;
+      }
+    }
+    
+    columns.push(currentValue.trim());
+    
+    const [code, wilayaName, communesStr] = columns;
+    
+    if (code && wilayaName && communesStr) {
+      // Remove any quotation marks from communes string
+      const cleanCommunesStr = communesStr.replace(/"/g, '');
+      // Split communes by comma
+      const communes = cleanCommunesStr.split(",").map(c => c.trim());
+      
+      stopdeskData[code] = {
+        name: wilayaName.trim(),
+        communes: communes
+      };
+    }
+  }
+}
+
+// Load both CSV files
+fetchAndParseCSV("data/Algeria_HOME.csv");
+fetchAndParseCSV("data/Algeria_STOPDESK.csv", true);
 
 // --- Total Price Calculation ---
 function updateTotal() {
@@ -86,21 +136,37 @@ document.querySelectorAll(".delivery-option").forEach(button => {
     updateTotal();
 
     const deliveryType = button.dataset.type;
+    
+    // Always show wilaya and commune fields for both delivery types
+    addressFields.style.display = "block";
+    
+    // Switch between regular and stopdesk data based on delivery type
+    populateWilayas(deliveryType === "stopdesk");
+    
+    // Reset commune dropdown
+    communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+    
     if (deliveryType === "home") {
-      addressFields.style.display = "block";
+      // For home delivery, show the address input field
+      document.getElementById("address").style.display = "block";
+      document.querySelector('label[for="address"]').style.display = "block";
     } else {
-      addressFields.style.display = "none";
-      wilayaSelect.value = "";
-      communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+      // For stopdesk, hide the address field
+      document.getElementById("address").style.display = "none";
+      document.querySelector('label[for="address"]').style.display = "none";
       document.getElementById("address").value = "";
     }
   });
 });
 
 // --- Wilaya and Commune Selection ---
-function populateWilayas() {
+function populateWilayas(isStopdesk = false) {
   wilayaSelect.innerHTML = '<option value="">اختر الولاية</option>';
-  const sortedWilayas = Object.entries(wilayasData).sort(([a], [b]) => parseInt(a) - parseInt(b));
+  
+  let dataSource = isStopdesk ? stopdeskData : wilayasData;
+  
+  // Sort by wilaya code
+  const sortedWilayas = Object.entries(dataSource).sort(([a], [b]) => parseInt(a) - parseInt(b));
 
   sortedWilayas.forEach(([code, { name }]) => {
     const option = document.createElement("option");
@@ -113,16 +179,32 @@ function populateWilayas() {
 wilayaSelect.addEventListener("change", () => {
   const selectedCode = wilayaSelect.value;
   communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+  
+  // Determine which data source to use based on selected delivery type
+  const isStopdesk = document.querySelector(".delivery-option.selected")?.dataset.type === "stopdesk";
+  const dataSource = isStopdesk ? stopdeskData : wilayasData;
 
-  if (wilayasData[selectedCode]) {
-    const communes = [...wilayasData[selectedCode].communes];
-    communes.sort((a, b) => a.name.localeCompare(b.name));
-    communes.forEach(commune => {
-      const option = document.createElement("option");
-      option.value = commune.id;
-      option.textContent = commune.name;
-      communeSelect.appendChild(option);
-    });
+  if (dataSource[selectedCode]) {
+    if (isStopdesk) {
+      // For stopdesk, communes are directly an array of strings
+      const communes = dataSource[selectedCode].communes;
+      communes.forEach((communeName, index) => {
+        const option = document.createElement("option");
+        option.value = `stopdesk_${selectedCode}_${index}`; // Create a unique value
+        option.textContent = communeName;
+        communeSelect.appendChild(option);
+      });
+    } else {
+      // For home delivery, communes are objects with id and name
+      const communes = [...dataSource[selectedCode].communes];
+      communes.sort((a, b) => a.name.localeCompare(b.name));
+      communes.forEach(commune => {
+        const option = document.createElement("option");
+        option.value = commune.id;
+        option.textContent = commune.name;
+        communeSelect.appendChild(option);
+      });
+    }
   }
 });
 
@@ -134,25 +216,45 @@ orderForm.addEventListener("submit", (e) => {
   const phone = document.getElementById("phone").value.trim();
   const quantity = quantityInput.value;
   const deliveryButton = document.querySelector(".delivery-option.selected");
-  const deliveryType = deliveryButton ? deliveryButton.textContent : "غير محدد";
-
+  const deliveryType = deliveryButton ? deliveryButton.dataset.type : "غير محدد";
+  const isStopdesk = deliveryType === "stopdesk";
+  
   let wilayaCode = wilayaSelect.value;
   let communeId = communeSelect.value;
   let address = document.getElementById("address").value.trim();
-  let wilayaName = wilayasData[wilayaCode]?.name || "";
-  let communeName = wilayasData[wilayaCode]?.communes.find(c => c.id === communeId)?.name || "";
-
-  // ✅ Validation for home delivery
-  if (deliveryButton?.dataset.type === "home") {
-    if (!wilayaCode || !communeId || !address) {
-      alert("يرجى اختيار الولاية والبلدية وكتابة العنوان للتوصيل إلى المنزل.");
-      return;
+  
+  let wilayaName = "";
+  let communeName = "";
+  
+  // Get wilaya and commune names based on delivery type
+  if (isStopdesk) {
+    wilayaName = stopdeskData[wilayaCode]?.name || "";
+    
+    // For stopdesk, extract the commune name from the selection
+    if (communeId && communeId.startsWith("stopdesk_")) {
+      const parts = communeId.split("_");
+      const communeIndex = parseInt(parts[2]);
+      communeName = stopdeskData[wilayaCode]?.communes[communeIndex] || "";
     }
+  } else {
+    wilayaName = wilayasData[wilayaCode]?.name || "";
+    communeName = wilayasData[wilayaCode]?.communes.find(c => c.id === communeId)?.name || "";
   }
 
-  if (deliveryButton?.dataset.type === "stopdesk") {
-    address = "N/A";
-    communeName = "N/A";
+  // Validation for both delivery types - require wilaya and commune
+  if (!wilayaCode || !communeId) {
+    alert("يرجى اختيار الولاية والبلدية.");
+    return;
+  }
+
+  // Additional validation for home delivery - require address
+  if (!isStopdesk && !address) {
+    alert("يرجى كتابة العنوان للتوصيل إلى المنزل.");
+    return;
+  }
+
+  if (isStopdesk) {
+    address = "N/A - StopDesk";
   }
 
   const formData = {
@@ -207,8 +309,16 @@ window.addEventListener("load", () => {
   const defaultDeliveryButton = document.querySelector(".delivery-option[data-type='stopdesk']");
   if (defaultDeliveryButton) {
     defaultDeliveryButton.classList.add("selected");
-    addressFields.style.display = "none"; // Hide commune field
+    
+    // Show wilaya/commune but hide address field
+    addressFields.style.display = "block";
+    document.getElementById("address").style.display = "none";
+    document.querySelector('label[for="address"]').style.display = "none";
+    
     shippingFee = parseInt(defaultDeliveryButton.dataset.fee) || 0;
     updateTotal();
+    
+    // Initialize with stopdesk data
+    populateWilayas(true);
   }
 });
